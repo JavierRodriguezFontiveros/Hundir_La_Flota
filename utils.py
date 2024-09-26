@@ -58,7 +58,7 @@ def crear_flota(tablero):
 #Tenemos una recursividad
 
 
-def no_salir_tablero(flota,tablero)
+def no_salir_tablero(flota,tablero):
 #No se salgan del tablero
 
 

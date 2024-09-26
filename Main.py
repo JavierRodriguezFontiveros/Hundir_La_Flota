@@ -1,5 +1,8 @@
 #Completo
 import utils
+import numpy as np
+import random
+import time
 
 def jugar():
     while True:
@@ -15,11 +18,11 @@ def jugar():
 
         time.sleep(1)
         print(f"Se va crear tu flota y la de la máquina aleatoriamente con 6 barcos")
-        tablero_usuario = utils.crear_flota(tablero_usuario)
-        tablero_maquina = utils.crear_flota(tablero_maquina)
+        flota_usuario = utils.crear_flota(tablero_usuario)
+        flota_maquina = utils.crear_flota(tablero_maquina)
         time.sleep(1)
         
-        print(tablero_usuario)
+        print(flota_usuario)
 
         tablero_usuario = utils.colocar_flota(flota_usuario,tablero_usuario)
         tablero_usario = utils.colocar_flota(flota_maquina,tablero_maquina)
