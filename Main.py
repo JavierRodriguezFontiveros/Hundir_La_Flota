@@ -25,7 +25,7 @@ def jugar():
         print(flota_usuario)
 
         tablero_usuario = utils.colocar_flota(flota_usuario,tablero_usuario)
-        tablero_usario = utils.colocar_flota(flota_maquina,tablero_maquina)
+        tablero_maquina = utils.colocar_flota(flota_maquina,tablero_maquina)
 
         time.sleep(1)
         print("Este es tu tablero: \n {tablero_usario}")

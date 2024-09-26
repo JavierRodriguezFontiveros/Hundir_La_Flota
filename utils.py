@@ -5,7 +5,7 @@ import time
 def crear_tablero(tamaño):
     tablero = np.full((tamaño,tamaño), "_")
     return tablero
-
+tablero_copy =crear_tablero(10)
 
 def crear_barco(eslora):
     casilla_0 = (random.randint(0,9), random.randint(0,9))  #2 posiciones aleatorias
@@ -21,6 +21,10 @@ def crear_barco(eslora):
         else:
             casilla = (casilla[0], casilla[1]+1)
             barco.append(casilla) # Horizontal
+    
+    for x,y in barco:
+        if x == len(tablero_copy) or y == len(tablero_copy):
+            return crear_barco(eslora)
 
     return barco                             #cada barco será una lista de tuplas
 
@@ -56,10 +60,6 @@ def crear_flota(tablero):
 
 #Crear una lista de barcos, de uno en uno ira comprobando que donde estén colocados no haya otro barco,
 #Tenemos una recursividad
-
-
-def no_salir_tablero(flota,tablero):
-#No se salgan del tablero
 
 
 def turno_usuario(tablero):
