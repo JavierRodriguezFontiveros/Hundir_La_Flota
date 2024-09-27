@@ -30,6 +30,10 @@ def crear_barco(eslora):
 
 
 def colocar_flota(flota,tablero):
+    for barco in flota:
+        np.append(barco)    #agregar a la lista con pandas
+    return tablero
+
 
 #def colocar_barco_tablero(barco,tablero):
     #for casilla in barco:
