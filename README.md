@@ -2,6 +2,9 @@
 
 Hundir La Flota es un emocionante y desafiante juego de batalla naval en el que te enfrentas a la inteligencia artificial más potente del mercado. ¿Tienes lo que se necesita para hundir todos los barcos del enemigo? ¡Elige tu modo de juego y demuestra tus habilidades!
 
+![ ](https://www.google.com/search?q=hundir+la+flota+fanart&newwindow=1&sca_esv=606d5da297b0983c&sca_upv=1&udm=2&sxsrf=ADLYWIIXwCloNAVGK3vlXbOj_8N5u2sc8w%3A1727556061681&ei=3Wn4ZviTKfWGxc8PvbbS4AE&ved=0ahUKEwi49orrv-aIAxV1Q_EDHT2bFBwQ4dUDCBA&uact=5&oq=hundir+la+flota+fanart&gs_lp=Egxnd3Mtd2l6LXNlcnAiFmh1bmRpciBsYSBmbG90YSBmYW5hcnRIrENQyQVY5kFwBXgAkAEHmAGuBqABk0mqAQ0wLjguOS40LjQuMy4xuAEDyAEA-AEBmAIWoALkLqgCCsICChAAGIAEGEMYigXCAgUQABiABMICBhAAGAgYHsICBxAAGIAEGBjCAgQQIxgnwgIHECMYJxjqAsICBBAAGB7CAgYQABgFGB7CAgkQABiABBgYGArCAg0QABiABBixAxhDGIoFwgILEAAYgAQYsQMYgwGYAxCIBgGSBws1LjMuNC41LjMuMqAHkIcB&sclient=gws-wiz-serp#vhid=QwiZ83KTE0y6JM&vssid=mosaic)
+
+
 ## Características Principales
 
 - **Versión 1.0**: Funciona sin clases, ofreciendo una jugabilidad sencilla y accesible.

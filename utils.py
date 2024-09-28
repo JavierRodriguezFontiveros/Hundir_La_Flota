@@ -43,31 +43,14 @@ def crear_barco(eslora, tablero):
             if not comprobar_colision(barco, tablero):
                 return barco
         
-def crear_barco_modo_corto(tablero):
-    barcos=[]
-    for _ in range(6):
-        barco = [(random.randint(0, 9), random.randint(0, 9))]
-        while comprobar_colision(barco, tablero):
-            barco = [(random.randint(0, 9), random.randint(0, 9))]
-        barcos.append(barco)
-        colocar_flota([barco], tablero)
-    return barcos
-
 def comprobar_colision(barco, tablero): 
     for i, j in barco:
         if tablero[i][j] == 'O':  
             return True
     return False
 
-def crear_flota(tablero):
-    flota_barcos = [
-        crear_barco(2, tablero),
-        crear_barco(2, tablero),
-        crear_barco(2, tablero),
-        crear_barco(3, tablero),
-        crear_barco(3, tablero),
-        crear_barco(4, tablero)]
-    return flota_barcos
+def crear_flota(tablero,esloras):
+    return [crear_barco(eslora,tablero) for eslora in esloras]
 
 def colocar_flota(barcos, tablero): 
     for barco in barcos:
@@ -81,15 +64,16 @@ def generar_nuevo_tablero():
     tablero_final = colocar_flota(flota_usuario, tablero_usuario)
     return tablero_final
 
-def sistema_de_turnos(tablero_final, tablero_maquina, flota_usuario, flota_maquina, modo):
+def sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo):
 
     print("Que comience el juego")
     barcos_hundidos_usuario = 0
     barcos_hundidos_maquina = 0
+    
     if modo == "corto":
         limite_puntos = 2
     else:
-        limite_puntos = len(tablero_final[tablero_final == "O"])
+        limite_puntos = len(tablero_maquina[tablero_maquina == "O"])
     
     while barcos_hundidos_usuario < limite_puntos and barcos_hundidos_maquina < limite_puntos:
         print("\n--- Tu turno ---")    
@@ -102,20 +86,13 @@ def sistema_de_turnos(tablero_final, tablero_maquina, flota_usuario, flota_maqui
         time.sleep(1)
 
         print("\n--- Turno de la Máquina ---")   
-        barcos_hundidos_usuario += turno_maquina(tablero_final, flota_usuario)
-        print(tablero_final)
+        barcos_hundidos_usuario += turno_maquina(tablero_usuario, flota_usuario)
+        mostrar_tablero(tablero_usuario)
 
         if barcos_hundidos_usuario >= limite_puntos:      
             print("La máquina te ha ganado crack")
             break
 
-def verificar_victoria(tablero_oponente,modo):
-    if modo == "corto":
-        barcos_restantes = len(np.where(tablero_oponente == "O")[0])
-        barcos_hundidos = 6 - barcos_restantes
-        return barcos_hundidos >= 2 #Gana si almenos se hunden dos barcos
-    else:
-        return not np.any(tablero_oponente == "O") #Gana si no queda ningun barco
 
 def turno_usuario(tablero,flota_maquina):
     while True:  
@@ -126,7 +103,7 @@ def turno_usuario(tablero,flota_maquina):
                 print("Cordenadas fuera de rango, intentelo de nuevo")
                 continue
         except ValueError:
-            print("Intruce numero entre el 1 y 9.")
+            print("Intruce numero entre el 1 y 10.")
             continue
 
         resultado = disparar((fila, columna), tablero)             #llamada ala función disparar
