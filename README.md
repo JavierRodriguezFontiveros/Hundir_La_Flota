@@ -7,15 +7,27 @@ Hundir La Flota es un emocionante y desafiante juego de batalla naval en el que 
 
 ## Características Principales
 
-- **Versión 1.0**: Funciona sin clases, ofreciendo una jugabilidad sencilla y accesible.
-- **Versión 1.5**: Implementación con clases que te indica qué tipo de barco has eliminado.
+- **Versión 1.0**: Codigo de python en crudo
+- **Versión 1.5**: Implementación con clases
 - **Sistema de Puntuación**: Dos modos de juego disponibles:
   - **Modo Corto**: Cada jugador tiene 6 barcos de eslora 1. El primer jugador en eliminar dos barcos gana.
   - **Modo Largo**: El jugador que hunde todos los barcos del oponente gana (modo convencional).
-- **Chat Bot**: Recibe mensajes de alerta cuando te acerques a perder.
 - **Generación de Tablero**: Opción para generar un nuevo tablero si no estás satisfecho con el actual.
 - **Importación de Imágenes**: Visualiza imágenes en la consola para enriquecer la experiencia de juego.
 - **Evaluador de Errores**: Sistema de detección de errores durante el juego para mejorar la experiencia del usuario.
+
+##Proximas actualizaciones
+- **Chat Bot**: Recibe mensajes de alerta cuando te acerques a perder.
+- **Dificultad**: La IA aumentará su probabilidad de acierto.
+- **Cuenta**: crear una cuenta para ver los historiales de partida.
+- **Pistas**: solicitar pista para encontrar algún barco concreto.
+- **Plataformas**: Jugable en diferentes plataforma y dispositivos.
+- **Idioma**: Cambiar el idioma a español,inglés y francés.
+- **Rendimiento**: optimizacion del código.
+- **Multijugador**: tanto online como offline.
+- **Flota**: poder escoger numero de barcos, tamaño de los mismos y la posición concreta.
+- **Patreon**: Aceptar donaciones de usuarios para motivar la rapidez de dichas actualizaciones.
+- **Caja de comentarios**: Ayudará a los desarrolladores en la evaluación de errores y mejoras.
 
 ## Modo de Juego
 
@@ -30,3 +42,4 @@ Para jugar a Hundir La Flota, sigue estos pasos:
 2. Clona este repositorio en tu máquina local:
    ```bash
    git clone https://github.com/tu_usuario/hundir_la_flota.git
+3.Disfruta de la aventura
