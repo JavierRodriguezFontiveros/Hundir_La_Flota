@@ -42,6 +42,16 @@ def crear_barco(eslora, tablero):
         if len(barco) == eslora: 
             if not comprobar_colision(barco, tablero):
                 return barco
+        
+def crear_barco_modo_corto(tablero)
+    barcos=[]
+    for _ in range(6):
+        barco = [(random.randint(0, 9), random.randint(0, 9))]
+        while comprobar_colision(barco, tablero):
+            barco = [(random.randint(0, 9), random.randint(0, 9))]
+        barcos.append(barco)
+        colocar_flota([barco], tablero)
+    return barcos
 
 def comprobar_colision(barco, tablero): 
     for i, j in barco:
@@ -76,52 +86,62 @@ def generar_nuevo_tablero():
 
 def sistema_de_turnos(tablero_final, tablero_maquina):
     print("Que comience el juego")
+    puntos_usuario = 0
+    puntos_maquina = 0
+    if modo == "corto":
+        limite_puntos = 2
+    else:
+        limite_puntos = len(tablero_final[tablero_final == "O"])
     
-    while not verificar_victoria(tablero_maquina) and not verificar_victoria(tablero_final): #Mientras ninguno haya ganado..
+    while puntos_usuario < limite_puntos and puntos_maquina < limite_puntos:
         print("\n--- Tu turno ---")    
-        turno_usuario(tablero_maquina)
-        print(tablero_maquina)
+        puntos_usuario += turno_usuario(tablero_maquina)
         
-        if verificar_victoria(tablero_maquina):   #Verifica si gana
+        if puntos_usuario > limite_puntos:   
             print("Has ganado makena.")
             break
         time.sleep(1)
 
         print("\n--- Turno de la Máquina ---")   
-        turno_maquina(tablero_final)
+        puntos_maquina += turno_maquina(tablero_final)
         print(tablero_final)
-        if verificar_victoria(tablero_final):      
+
+        if puntos_maquina >= limite_puntos:      
             print("La máquina te ha ganado crack")
             break
 
+def verificar_victoria(tablero_oponente,modo):
+    if modo == "Corto":
+        barcos_restantes = len(np.where(tablero_oponente == "O")[0])
+        barcos_hundidos = 6 - barcos_restantes
+        return barcos_hundidos >= 2 #Gana si almenos se hunden dos barcos
+    else:
+        return not np.any(tablero_oponente == "O") #Gana si no queda ningun barco
 
 def turno_usuario(tablero):
     while True:  
         try:                                                                 #Mientras no se pierda el turno
             fila = int(input("Introduce la fila (1-9) a la que quieres disparar: "))
-            columna = int(input("Introduce la columna (0-9) a la que quieres disparar: "))
-            if fila > 0 or fila > 9 or columna <0 or columna > 9:
+            columna = int(input("Introduce la columna (1-9) a la que quieres disparar: "))
+            if not (0 <= fila <= 9) or not columna (0 <= columna <= 9):
                 print("Cordenadas fuera de rango, intentelo de nuevo")
+                continue
         except ValueError:
-            print("Intruce numero entre el 0 y 9.")
+            print("Intruce numero entre el 1 y 9.")
+            continue
 
-        resultado = disparar((fila-1, columna), tablero)             #llamada ala función disparar
+        resultado = disparar((fila-1, columna-1), tablero)             #llamada ala función disparar
         print(f"Disparaste a {(fila, columna)}:\n {resultado}")     #Ubicación del tiro por pantalla
         
         if resultado == "Agua":                                     #Posibilidades
             print("Fallaste. Fin de tu turno.")
-            break
+            return 0
         elif resultado == "Tocado":
             print("Has acertado sigue disparando.")
-            continue
-        else:
-            print("Casilla repetida,perdiste el turno")
-            break
-
-def verificar_victoria(tablero_oponente):
-    return not np.any(tablero_oponente == "O")
-#Si quedan alguna "O" nos dá True, nadie ha ganado
-
+            if barco_hundido(tablero):
+                print("Barco Hundido")
+                return 1
+            
 
 def turno_maquina(tablero):
     while True:                      #Mientras acierte seguirá disparando de forma random
@@ -133,25 +153,34 @@ def turno_maquina(tablero):
         
         if resultado == "Agua":
             print("La máquina falló. Fin de su turno.")
-            break  
+            return 0  
 
         elif resultado == "Tocado":
             print("La máquina acertó. Sigue disparando.")
-            continue 
+            return 1
         
-        else:
-            print("Casilla repetida, pierde el turno")
-            break
 
 def disparar(casilla, tablero):
-    if tablero[casilla] == "O":              #la O es barco, la X tocado y la A agua
+    fila, columna = casilla
+    if tablero[fila, columna] == "O":              #la O es barco, la X tocado y la A agua
         print("Tocado")
-        tablero[casilla] = "X"
+        tablero[fila, columna] = "X"
         return "Tocado"
-    elif tablero[casilla] == '_': 
+    elif tablero[fila,columna] == '_': 
         print("Agua")
-        tablero[casilla] = "A"
+        tablero[fila,columna] = "A"
         return "Agua"
     else:
         print("Casilla ya disparada.")
-        return "Casilla ya disparada"
+        return "Casilla repetida"
+    
+
+def barco_hundido(tablero,fila,columna):
+    return not np.any(tablero == "O")
+
+def crear_barcos_modo_corto(tablero):
+    barcos = []
+    for _ in range(6):
+        barco = crear_barco(1, tablero)  
+        barcos.append(barco)
+    return barcos
