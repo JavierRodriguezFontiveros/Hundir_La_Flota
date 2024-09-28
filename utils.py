@@ -2,11 +2,23 @@ import numpy as np
 import random
 import time
 
+def dibujar_batalla_barcos():
+    escena = [
+        "      __|__                     __|__      ",
+        "     |o o o|                   |o o o|     ",
+        "  ___/_____/\\__             ___/_____/\\__   ",
+        "  \\           /             \\           /   ",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "               #-------->>                    ",
+        "                BOOOOOM!                      ",]
+    for linea in escena:
+        print(linea)
+
 
 def crear_tablero(tamaño):
     tablero = np.full((tamaño,tamaño), "_")
     return tablero
-tablero_copy =crear_tablero(10)
+
 
 def crear_barco(eslora, tablero):
     while True:
@@ -60,61 +72,40 @@ def generar_nuevo_tablero():
     return tablero_final
 
 #Hasta aquí funciones para preparar el juego
+#Apartir de aqui empieza el sistema de turnos
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-def sistema_de_turnos(tablero_usuario, tablero_maquina):
+def sistema_de_turnos(tablero_final, tablero_maquina):
     print("Que comience el juego")
     
-    while verificar_victoria(tablero_maquina) and verificar_victoria(tablero_usuario): #Mientras ninguno haya ganado..
+    while not verificar_victoria(tablero_maquina) and not verificar_victoria(tablero_final): #Mientras ninguno haya ganado..
         print("\n--- Tu turno ---")    
         turno_usuario(tablero_maquina)
+        print(tablero_maquina)
         
-        if not verificar_victoria(tablero_maquina):   #Verifica si gana
+        if verificar_victoria(tablero_maquina):   #Verifica si gana
             print("Has ganado makena.")
             break
-        
-        print("\n--- Turno de la Máquina ---")   
-        turno_maquina(tablero_usuario)
+        time.sleep(1)
 
-        if not verificar_victoria(tablero_usuario):      
+        print("\n--- Turno de la Máquina ---")   
+        turno_maquina(tablero_final)
+        print(tablero_final)
+        if verificar_victoria(tablero_final):      
             print("La máquina te ha ganado crack")
             break
 
 
-
-
-
-
-
-
-
-def disparar(casilla, tablero):
-    if tablero[casilla] == "O":              #la O es barco, la X tocado y la A agua
-        print("Tocado")
-        tablero[casilla] = "X"
-    elif tablero[casilla] == '_': 
-        print("Agua")
-        tablero[casilla] = "A"
-    return tablero
-
 def turno_usuario(tablero):
-    while True:                                                                   #Mientras no se pierda el turno
-        fila = int(input("Introduce la fila (0-9) a la que quieres disparar: "))
-        columna = int(input("Introduce la columna (0-9) a la que quieres disparar: "))
+    while True:  
+        try:                                                                 #Mientras no se pierda el turno
+            fila = int(input("Introduce la fila (1-9) a la que quieres disparar: "))
+            columna = int(input("Introduce la columna (0-9) a la que quieres disparar: "))
+            if fila > 0 or fila > 9 or columna <0 or columna > 9:
+                print("Cordenadas fuera de rango, intentelo de nuevo")
+        except ValueError:
+            print("Intruce numero entre el 0 y 9.")
 
-        resultado = disparar((fila, columna), tablero)             #llamada ala función disparar
+        resultado = disparar((fila-1, columna), tablero)             #llamada ala función disparar
         print(f"Disparaste a {(fila, columna)}:\n {resultado}")     #Ubicación del tiro por pantalla
         
         if resultado == "Agua":                                     #Posibilidades
@@ -126,6 +117,10 @@ def turno_usuario(tablero):
         else:
             print("Casilla repetida,perdiste el turno")
             break
+
+def verificar_victoria(tablero_oponente):
+    return not np.any(tablero_oponente == "O")
+#Si quedan alguna "O" nos dá True, nadie ha ganado
 
 
 def turno_maquina(tablero):
@@ -148,26 +143,15 @@ def turno_maquina(tablero):
             print("Casilla repetida, pierde el turno")
             break
 
-
-def verificar_victoria(tablero_oponente):
-    return not np.any(tablero_oponente == "O")
-
-#Si quedan alguna "O" nos dá True, nadie ha ganado
-
-def sistema_de_turnos(tablero_usuario, tablero_maquina):
-    print("Que comience el juego")
-    
-    while verificar_victoria(tablero_maquina) and verificar_victoria(tablero_usuario): #Mientras ninguno haya ganado..
-        print("\n--- Tu turno ---")    
-        turno_usuario(tablero_maquina)
-        
-        if not verificar_victoria(tablero_maquina):   #Verifica si gana
-            print("Has ganado makena.")
-            break
-        
-        print("\n--- Turno de la Máquina ---")   
-        turno_maquina(tablero_usuario)
-
-        if not verificar_victoria(tablero_usuario):      
-            print("La máquina te ha ganado crack")
-            break
+def disparar(casilla, tablero):
+    if tablero[casilla] == "O":              #la O es barco, la X tocado y la A agua
+        print("Tocado")
+        tablero[casilla] = "X"
+        return "Tocado"
+    elif tablero[casilla] == '_': 
+        print("Agua")
+        tablero[casilla] = "A"
+        return "Agua"
+    else:
+        print("Casilla ya disparada.")
+        return "Casilla ya disparada"
