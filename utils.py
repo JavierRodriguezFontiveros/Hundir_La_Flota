@@ -8,41 +8,36 @@ def crear_tablero(tamaño):
     return tablero
 tablero_copy =crear_tablero(10)
 
-#Actualizacion
-def tablero_final (crear_barco,crear_flota,colocar_flota)
-    crear_barco()
-    crear_barco()
-    colocar_flota()
-    return tablero_final
+def crear_barco(eslora, tablero):
+    while True:
+        casilla_0 = (random.randint(0, 9), random.randint(0, 9))
+        orientacion = random.choice(["Vertical", "Horizontal"])
 
-def crear_barco(eslora):
-    casilla_0 = (random.randint(0,9), random.randint(0,9))  #2 posiciones aleatorias
-    orientacion = random.choice(["Vertical", "Horizontal"])  #posicion aleatoria
+        barco = [casilla_0]
+        casilla = casilla_0
 
-    barco = [casilla_0] #Los barcos seran listas
-    casilla = casilla_0
+        for _ in range(1, eslora): #_sifnifica que se va iterar tantas veces se necesite, es una convencion de python
+            if orientacion == "Vertical":
+                nueva_casilla = (casilla[0] + 1, casilla[1])
+            else:
+                nueva_casilla = (casilla[0], casilla[1] + 1)
 
-    while len(barco) < eslora:               #Código para hacerlo crecer en la longitud y posicion que le toque
-        if orientacion == "Vertical":
-            casilla = (casilla[0]+1, casilla[1])
-            barco.append(casilla) # Vertical          #Suma valor al barco
-        else:
-            casilla = (casilla[0], casilla[1]+1)
-            barco.append(casilla) # Horizontal
-    
-    for x,y in barco:
-        if x == len(tablero_copy) or y == len(tablero_copy):
-            return crear_barco(eslora)
+            if nueva_casilla[0] > 9 or nueva_casilla[1] > 9:
+                break  
+            barco.append(nueva_casilla)
+            casilla = nueva_casilla
 
-    return barco                             #cada barco será una lista de tuplas
+        if len(barco) == eslora: 
+            if not comprobar_colision(barco, tablero):
+                return barco
 
-def comprobar_colision(barco, tablero): #FUNCIONA PERFECTAMENTE
+def comprobar_colision(barco, tablero): 
     for i, j in barco:
         if tablero[i][j] == 'O':  
             return True
     return False
 
-def colocar_flota(flota, tablero): #FUNCIONA PERFECTAMENTE
+def crear_flota(tablero):
     flota_barcos = [
         crear_barco(2, tablero),
         crear_barco(2, tablero),
@@ -50,10 +45,55 @@ def colocar_flota(flota, tablero): #FUNCIONA PERFECTAMENTE
         crear_barco(3, tablero),
         crear_barco(3, tablero),
         crear_barco(4, tablero)]
-    for barco in flota_barcos:
+    return flota_barcos
+
+def colocar_flota(flota, tablero): 
+    for barco in flota:
         for i, j in barco:
             tablero[i][j] = 'O'  
     return tablero
+
+def generar_nuevo_tablero():
+    tablero_usuario = crear_tablero(10)
+    flota_usuario = crear_flota(tablero_usuario)
+    tablero_final = colocar_flota(flota_usuario, tablero_usuario)
+    return tablero_final
+
+#Hasta aquí funciones para preparar el juego
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def sistema_de_turnos(tablero_usuario, tablero_maquina):
+    print("Que comience el juego")
+    
+    while verificar_victoria(tablero_maquina) and verificar_victoria(tablero_usuario): #Mientras ninguno haya ganado..
+        print("\n--- Tu turno ---")    
+        turno_usuario(tablero_maquina)
+        
+        if not verificar_victoria(tablero_maquina):   #Verifica si gana
+            print("Has ganado makena.")
+            break
+        
+        print("\n--- Turno de la Máquina ---")   
+        turno_maquina(tablero_usuario)
+
+        if not verificar_victoria(tablero_usuario):      
+            print("La máquina te ha ganado crack")
+            break
+
+
+
 
 
 
@@ -68,27 +108,6 @@ def disparar(casilla, tablero):
         print("Agua")
         tablero[casilla] = "A"
     return tablero
-
-
-
-
-
-
-
-def crear_flota(tablero):
-    flota_barcos =[crear_barco(2),crear_barco(2),crear_barco(2), crear_barco(3), crear_barco(3),crear_barco(4)]
-    for barcos in flota_barcos:
-        for i, j in barcos:
-            if tablero[i,j] == "O":
-                crear_flota(tablero)
-            else:
-                return flota_barcos
-
-#Crear una lista de barcos, de uno en uno ira comprobando que donde estén colocados no haya otro barco,
-#Tenemos una recursividad
-
-
-
 
 def turno_usuario(tablero):
     while True:                                                                   #Mientras no se pierda el turno
@@ -107,12 +126,6 @@ def turno_usuario(tablero):
         else:
             print("Casilla repetida,perdiste el turno")
             break
-
-
-
-
-
-
 
 
 def turno_maquina(tablero):
@@ -136,15 +149,10 @@ def turno_maquina(tablero):
             break
 
 
-
-
 def verificar_victoria(tablero_oponente):
     return not np.any(tablero_oponente == "O")
 
 #Si quedan alguna "O" nos dá True, nadie ha ganado
-
-
-
 
 def sistema_de_turnos(tablero_usuario, tablero_maquina):
     print("Que comience el juego")
