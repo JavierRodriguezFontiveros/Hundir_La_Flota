@@ -2,10 +2,18 @@ import numpy as np
 import random
 import time
 
+
 def crear_tablero(tamaño):
     tablero = np.full((tamaño,tamaño), "_")
     return tablero
 tablero_copy =crear_tablero(10)
+
+#Actualizacion
+def tablero_final (crear_barco,crear_flota,colocar_flota)
+    crear_barco()
+    crear_barco()
+    colocar_flota()
+    return tablero_final
 
 def crear_barco(eslora):
     casilla_0 = (random.randint(0,9), random.randint(0,9))  #2 posiciones aleatorias
@@ -28,17 +36,28 @@ def crear_barco(eslora):
 
     return barco                             #cada barco será una lista de tuplas
 
+def comprobar_colision(barco, tablero): #FUNCIONA PERFECTAMENTE
+    for i, j in barco:
+        if tablero[i][j] == 'O':  
+            return True
+    return False
 
-def colocar_flota(flota,tablero):
-    for barco in flota:
-        np.append(barco)    #agregar a la lista con pandas
+def colocar_flota(flota, tablero): #FUNCIONA PERFECTAMENTE
+    flota_barcos = [
+        crear_barco(2, tablero),
+        crear_barco(2, tablero),
+        crear_barco(2, tablero),
+        crear_barco(3, tablero),
+        crear_barco(3, tablero),
+        crear_barco(4, tablero)]
+    for barco in flota_barcos:
+        for i, j in barco:
+            tablero[i][j] = 'O'  
     return tablero
 
 
-#def colocar_barco_tablero(barco,tablero):
-    #for casilla in barco:
-        #tablero[casilla] = "O"
-    #print(tablero)
+
+
 
 
 def disparar(casilla, tablero):
@@ -48,9 +67,12 @@ def disparar(casilla, tablero):
     elif tablero[casilla] == '_': 
         print("Agua")
         tablero[casilla] = "A"
-    else:
-        print("Casilla repetida")
     return tablero
+
+
+
+
+
 
 
 def crear_flota(tablero):
@@ -64,6 +86,8 @@ def crear_flota(tablero):
 
 #Crear una lista de barcos, de uno en uno ira comprobando que donde estén colocados no haya otro barco,
 #Tenemos una recursividad
+
+
 
 
 def turno_usuario(tablero):
@@ -83,6 +107,12 @@ def turno_usuario(tablero):
         else:
             print("Casilla repetida,perdiste el turno")
             break
+
+
+
+
+
+
 
 
 def turno_maquina(tablero):
@@ -106,10 +136,14 @@ def turno_maquina(tablero):
             break
 
 
+
+
 def verificar_victoria(tablero_oponente):
     return not np.any(tablero_oponente == "O")
 
-#Si quedan alguna "O" nos dá True
+#Si quedan alguna "O" nos dá True, nadie ha ganado
+
+
 
 
 def sistema_de_turnos(tablero_usuario, tablero_maquina):

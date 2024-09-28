@@ -1,5 +1,8 @@
 #Completo
 import utils
+import numpy as np
+import random
+import time
 
 def jugar():
     while True:
@@ -21,7 +24,7 @@ def jugar():
 
         time.sleep(1)
         
-        print(tablero_usuario)
+        print(flota_usuario)
 
         time.sleep(1)
 
@@ -30,7 +33,7 @@ def jugar():
         tablero_maquina = utils.colocar_flota(flota_maquina,tablero_maquina)
 
         time.sleep(1)
-        
+
         print("Este es tu tablero: \n {tablero_usario}")
         print("Buena Suerte!")
 
