@@ -1,8 +1,9 @@
 import utils
 import time
-def interfaz_del_juego():
+import numpy as np
+import random
 
-    utils.seleccionar_idioma()
+def interfaz_del_juego(idioma):
 
     print(utils.traducciones[idioma]["bienvenida"])
     time.sleep(1)
@@ -10,13 +11,13 @@ def interfaz_del_juego():
     time.sleep(2)
 
     while True:
-        modo = input(traducciones[idioma]["elige_modo"]).lower()
-        if modo == "corto" or modo == "largo":
+        modo = input(utils.traducciones[idioma]["elige_modo"]).lower()
+        if modo == utils.traducciones[idioma]["corto"] or modo == utils.traducciones[idioma]["largo"]:
             break
         else:
-            print(traducciones[idioma]["modo_no_valido"])
+            print(utils.traducciones[idioma]["modo_no_valido"])
 
-    print(traducciones[idioma]["creando_tablero"])
+    print(utils.traducciones[idioma]["creando_tablero"])
     time.sleep(1)
 
     #Crear tableros
@@ -24,10 +25,10 @@ def interfaz_del_juego():
     tablero_maquina = utils.crear_tablero(10)
 
     #Crear flotas
-    if modo == "corto":
+    if modo == utils.traducciones[idioma]["corto"]:
         flota_usuario = utils.crear_flota(tablero_usuario, [1] *6)
         flota_maquina = utils.crear_flota(tablero_maquina, [1] *6)
-    elif modo == "largo":
+    elif modo == utils.traducciones[idioma]["largo"]:
         flota_usuario = utils.crear_flota(tablero_usuario, [2,2,2,3,3,4])
         flota_maquina = utils.crear_flota(tablero_maquina, [2,2,2,3,3,4])
 
@@ -36,25 +37,37 @@ def interfaz_del_juego():
     utils.colocar_flota(flota_maquina,tablero_maquina)
 
     time.sleep(0.5)
-    print(f"\n   Tu tablero")
+    print(utils.traducciones[idioma]["tu_tablero"])
     utils.mostrar_tablero(tablero_usuario)
 
     while True: 
-        respuesta = input(traducciones[idioma]["te_gusta_el_tablero"]).lower()    
-        if respuesta == "si":
-            print(traducciones[idioma]["jugaras_con_este"])
+        respuesta = input(utils.traducciones[idioma]["te_gusta_el_tablero"]).lower()    
+        if respuesta == "true":
+            print(utils.traducciones[idioma]["jugaras_con_este"])
             break
         else:
             time.sleep(0.5)
             tablero_usuario = utils.crear_tablero(10)
-            if modo == "corto":
+            if modo == utils.traducciones[idioma]["corto"]:
                 flota_usuario = utils.crear_flota(tablero_usuario, [1] * (6))
             else:
                 flota_usuario = utils.crear_flota(tablero_usuario, [2, 2, 2, 3, 3, 4])
             utils.colocar_flota(flota_usuario,tablero_usuario)  
-            print(traducciones[idioma]["nuevo_tablero_generado"])
+            print(utils.traducciones[idioma]["nuevo_tablero_generado"])
             utils.mostrar_tablero(tablero_usuario)
 
-    utils.sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo)
+    utils.sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo,idioma)
 
+def hundir_la_flota(idioma):
+    while True:
+        interfaz_del_juego(idioma)
+        jugar_nuevamente = input(utils.traducciones[idioma]["jugar_de_nuevo"]).lower()
+        if jugar_nuevamente == "true":  
+            hundir_la_flota()  
+        else:
+            print(utils.traducciones[idioma]["salir_juego"])
+            print(utils.traducciones[idioma]["actualizaciones"])
+            break 
 
+idioma = utils.seleccionar_idioma()
+hundir_la_flota(idioma)

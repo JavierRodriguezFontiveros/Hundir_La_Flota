@@ -3,6 +3,7 @@ import random
 import time
 
 
+
 def dibujar_batalla_barcos():
     escena = [
         "      __|__                     __|__      ",
@@ -16,21 +17,22 @@ def dibujar_batalla_barcos():
         print(linea)
 
 
+
 def seleccionar_idioma():
     while True:
-        idioma = input("Seleccione el idioma / Select language (es/en): ").lower()
-        if idioma in ["es", "en"]:
+        idioma = input("Seleccione el idioma / Select language (Español/English): ").lower()
+        if idioma in ["español", "english"]:
             return idioma
         else:
-            print("Idioma no válido / Invalid language. Por favor elija 'es' o 'en'.")
+            print("Idioma no válido / Invalid language. Por favor elija 'Español' o 'English'.")
 
 
 traducciones = {
-    "es": {
+    "español": {
         "bienvenida": "Bienvenido a Hundir la Flota",
         "elige_modo": "Hay dos modos de juego: Corto (6 barcos de eslora 1) o Largo (6 barcos de diferentes esloras). Introduzca (Corto/Largo): ",
         "creando_tablero": "Creando tablero de juego...",
-        "te_gusta_el_tablero": "¿Te gusta tu tablero o generamos otro? (si/no)",
+        "te_gusta_el_tablero": "¿Te gusta tu tablero o generamos otro? (True/False)",
         "buena_suerte": "Entonces jugarás con este, ¡BUENA SUERTE!",
         "tocado": "Tocado",
         "agua": "Agua",
@@ -53,14 +55,25 @@ traducciones = {
         "casilla_repetida": "Casilla repetida",
         "nuevo_tablero_generado": "Nuevo tablero Generado",
         "tablero_maquina": "Tablero de la maquina",
-        "jugaras_con_este": "Entonces jugarás con este, ¡BUENA SUERTE!"
+        "jugaras_con_este": "Entonces jugarás con este, ¡BUENA SUERTE!",
+        "barcos_restantes": "Barcos restantes de la maquina :",
+        "te_quedan": "Te quedan",
+        "barcos":"barcos",
+        "disparastes_a": "disparaste a",
+        "jugar_de_nuevo": "¿Quieres jugar de nuevo? (True/False): ",
+        "salir_juego":"Saliendo del juego, que tenga buen día. No dude en volver a jugar.",
+        "actualizaciones":"Con un pull de git, compruebe las nuevas actualizaciones.",
+        "corto":"corto",
+        "largo":"largo",
+        "tu_tablero":"\n   Tu tablero",
+        "juego":"Que empiezen los cañonazos"
 
     },
-    "en": {
+    "english": {
         "bienvenida": "Welcome to Battleship",
         "elige_modo": "There are two game modes: Short (6 ships of length 1) or Long (6 ships of different lengths). Enter (Short/Long): ",
         "creando_tablero": "Creating game board...",
-        "te_gusta_el_tablero": "Do you like your board or shall we generate another? (yes/no)",
+        "te_gusta_el_tablero": "Do you like your board or shall we generate another? (True/False)",
         "buena_suerte": "You will play with this one, GOOD LUCK!",
         "tocado": "Hit",
         "agua": "Miss",
@@ -83,7 +96,18 @@ traducciones = {
         "casilla_repetida": "Repeated square",
         "nuevo_tablero_generado": "New board generated",
         "tablero_maquina": "Machine's board",
-        "jugaras_con_este": "You will play with this one, GOOD LUCK!"
+        "jugaras_con_este": "You will play with this one, GOOD LUCK!",
+        "barcos_restantes": "Remaining ships of the machine:",
+        "te_quedan": "You have",
+        "barcos": "ships left",
+        "disparastes_a":"you shot at",
+        "jugar_de_nuevo": "Do you want to play again? (True/False):",
+        "salir_juego":"Quitting game, have a nice day. Feel free to come back to play.",
+        "actualizaciones":"Check out new updates with a git pull.",
+        "corto":"short",
+        "largo":"long",
+        "tu_tablero":"\n   Your game track",
+        "juego":"Let the cannon fire begin"
     }
 }
 
@@ -133,23 +157,23 @@ def colocar_flota(barcos, tablero):
     return tablero
 
 
-def sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo):
+def sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo, idioma):
     time.sleep(1)
-    print(f"{traducciones[idioma]["ganas"]}!")
+    print(f"{traducciones[idioma]["juego"]}!")
     time.sleep(1)
     barcos_hundidos_usuario = 0
     barcos_hundidos_maquina = 0
     total_barcos = len(flota_maquina)
     
-    if modo == "corto":
+    if modo == traducciones[idioma]["corto"]:
         limite_puntos = 3
     else:
         limite_puntos = len(tablero_maquina[tablero_maquina == "O"])
     
     while barcos_hundidos_usuario < limite_puntos and barcos_hundidos_maquina < limite_puntos:
         print(f"\n--- {traducciones[idioma]['turno_usuario']} ---")    
-        barcos_hundidos_maquina += turno_usuario(tablero_maquina,flota_maquina)
-        print(f"Barcos restantes de la maquina : {total_barcos - barcos_hundidos_maquina}")
+        barcos_hundidos_maquina += turno_usuario(tablero_maquina,flota_maquina,idioma)
+        print(f"{traducciones[idioma]['barcos_restantes']} {total_barcos - barcos_hundidos_maquina}")
 
         if barcos_hundidos_maquina >= limite_puntos:   
             print(f"{traducciones[idioma]['ganas']}!")
@@ -158,18 +182,18 @@ def sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maq
         time.sleep(2)
 
         print(f"\n--- {traducciones[idioma]['turno_maquina']} ---")   
-        barcos_hundidos_usuario += turno_maquina(tablero_usuario, flota_usuario)
+        barcos_hundidos_usuario += turno_maquina(tablero_usuario, flota_usuario,idioma)
         mostrar_tablero(tablero_usuario)
-        print(f"\n Te quedan {total_barcos - barcos_hundidos_usuario} barcos")
+        print(f"\n {traducciones[idioma]['te_quedan']} {total_barcos - barcos_hundidos_usuario} {traducciones[idioma]['barcos']}")
 
         if barcos_hundidos_usuario >= limite_puntos:      
             print(f"{traducciones[idioma]['pierdes']}!")
             break
 
 
-def turno_usuario(tablero_maquina,flota_maquina):
+def turno_usuario(tablero_maquina,flota_maquina,idioma):
     while True: 
-        mostrar_tablero_oculto(tablero_maquina) 
+        mostrar_tablero_oculto(tablero_maquina,idioma) 
         try:                                                                 #Mientras no se pierda el turno
             fila = int(input(traducciones[idioma]["disparar"]))
             columna = int(input(traducciones[idioma]["disparar"]))
@@ -180,8 +204,8 @@ def turno_usuario(tablero_maquina,flota_maquina):
             print(traducciones[idioma]["numero_invalido"])
             continue
 
-        resultado = disparar((fila, columna), tablero_maquina)             #llamada ala función disparar
-        print(f"Disparaste a {(fila, columna)}:\n {resultado}")     #Ubicación del tiro por pantalla
+        resultado = disparar((fila, columna), tablero_maquina,idioma)             #llamada ala función disparar
+        print(f"{traducciones[idioma]['disparastes_a']} {(fila, columna)}:\n {resultado}")     #Ubicación del tiro por pantalla
         
         if resultado == traducciones[idioma]["agua"]:                                    #Posibilidades
             print(traducciones[idioma]["fallaste"])
@@ -194,12 +218,12 @@ def turno_usuario(tablero_maquina,flota_maquina):
                     return 1
                 
 
-def turno_maquina(tablero_usuario, flota_usuario):
+def turno_maquina(tablero_usuario, flota_usuario,idioma):
     while True:                      #Mientras acierte seguirá disparando de forma random
         fila = random.randint(0, 9)
         columna = random.randint(0, 9)
         
-        resultado = disparar((fila, columna), tablero_usuario)
+        resultado = disparar((fila, columna), tablero_usuario,idioma)
         print(f"{traducciones[idioma]['disparo_maquina']} {(fila, columna)}: \n {resultado}")
 
         
@@ -215,7 +239,7 @@ def turno_maquina(tablero_usuario, flota_usuario):
                     return 1
         
 
-def disparar(casilla, tablero):
+def disparar(casilla, tablero,idioma):
     fila, columna = casilla
     if tablero[fila, columna] == "O":              #la O es barco, la X tocado y la A agua
         tablero[fila, columna] = "X"
@@ -236,8 +260,8 @@ def mostrar_tablero(tablero):
     for fila in tablero:
         print(" ".join(fila))
 
-def mostrar_tablero_oculto(tablero):
-    print("Tablero de la maquina")
+def mostrar_tablero_oculto(tablero,idioma):
+    print(traducciones[idioma]['tablero_maquina'])
     for fila in tablero:      
         nueva_fila = []
         for celda in fila:
