@@ -22,7 +22,7 @@ Hundir La Flota es un emocionante y desafiante juego de batalla naval en el que 
 - **Cuenta**: crear una cuenta para ver los historiales de partida.
 - **Pistas**: solicitar pista para encontrar algún barco concreto.
 - **Plataformas**: Jugable en diferentes plataforma y dispositivos.
-- **Idioma**: Cambiar el idioma a español,inglés y francés.
+- **Idioma**: Cambiar el idioma a español e ingles.
 - **Rendimiento**: optimizacion del código.
 - **Multijugador**: tanto online como offline.
 - **Flota**: poder escoger numero de barcos, tamaño de los mismos y la posición concreta.
@@ -31,7 +31,7 @@ Hundir La Flota es un emocionante y desafiante juego de batalla naval en el que 
 
 ## Modo de Juego
 
-1. **Rápido**: El primer jugador en acertar tres veces gana.
+1. **Corto**: El primer jugador en acertar tres veces gana.
 2. **Largo**: Se deben hundir todos los barcos del enemigo para ganar.
 
 ## Instalación

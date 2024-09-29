@@ -1,58 +1,60 @@
-import time
-import numpy as np
 import utils
+import time
+def interfaz_del_juego():
 
-def jugar():
-    print(f"Welcome to Battleship")
+    utils.seleccionar_idioma()
+
+    print(utils.traducciones[idioma]["bienvenida"])
     time.sleep(1)
-
     utils.dibujar_batalla_barcos()
     time.sleep(2)
 
-    modo = input("Hay dos modos de juego: Corto( Cada jugador tendra 6 barcos de eslora 1 y quién elimine antes dos barcos habrá ganado. Largo: 6 barcos cada uno y quien elimine los del contrincante antes habrá ganado.  Introduzca: (Corto/Largo)) ").lower()
+    while True:
+        modo = input(traducciones[idioma]["elige_modo"]).lower()
+        if modo == "corto" or modo == "largo":
+            break
+        else:
+            print(traducciones[idioma]["modo_no_valido"])
 
-    print(f"Creating your new the game track...")
-
+    print(traducciones[idioma]["creando_tablero"])
     time.sleep(1)
+
+    #Crear tableros
     tablero_usuario = utils.crear_tablero(10)
     tablero_maquina = utils.crear_tablero(10)
 
-    
+    #Crear flotas
     if modo == "corto":
-        flota_usuario = utils.crear_flota(tablero_usuario, [1]*(6))
-        flota_maquina = utils.crear_flota(tablero_maquina, [1]*(6))
-    else:
+        flota_usuario = utils.crear_flota(tablero_usuario, [1] *6)
+        flota_maquina = utils.crear_flota(tablero_maquina, [1] *6)
+    elif modo == "largo":
         flota_usuario = utils.crear_flota(tablero_usuario, [2,2,2,3,3,4])
         flota_maquina = utils.crear_flota(tablero_maquina, [2,2,2,3,3,4])
-        
+
+    #Colocar flotas
     utils.colocar_flota(flota_usuario,tablero_usuario)
     utils.colocar_flota(flota_maquina,tablero_maquina)
 
     time.sleep(0.5)
-    print(f"\nTu tablero")
+    print(f"\n   Tu tablero")
     utils.mostrar_tablero(tablero_usuario)
 
     while True: 
-        respuesta = input("Te gusta tu tablero o generamos otro?(si/no)").lower()    
+        respuesta = input(traducciones[idioma]["te_gusta_el_tablero"]).lower()    
         if respuesta == "si":
-            print(f"Entonces jugaras con este, Buena Suerte!")
+            print(traducciones[idioma]["jugaras_con_este"])
             break
         else:
+            time.sleep(0.5)
             tablero_usuario = utils.crear_tablero(10)
-            flota_usuario = utils.crear_flota(tablero_usuario,[2,2,2,2,3,3,4])
-            utils.colocar_flota(flota_usuario,tablero_usuario)
-            print("Nuevo tablero")
+            if modo == "corto":
+                flota_usuario = utils.crear_flota(tablero_usuario, [1] * (6))
+            else:
+                flota_usuario = utils.crear_flota(tablero_usuario, [2, 2, 2, 3, 3, 4])
+            utils.colocar_flota(flota_usuario,tablero_usuario)  
+            print(traducciones[idioma]["nuevo_tablero_generado"])
             utils.mostrar_tablero(tablero_usuario)
 
     utils.sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo)
 
-def hundir_la_flota():
-    while True:
-        jugar()
-        jugar_nuevamente = input("¿Quieres jugar de nuevo? (si/no): ").lower()
-        if jugar_nuevamente != "si":
-            print(f"Saliendo del juego, que tenga buen día no dude en volver a jugar")
-            print(f"Con un pull de git compruebe las nuevas actualizaciones")
-            break
 
-hundir_la_flota()
