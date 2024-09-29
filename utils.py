@@ -2,6 +2,7 @@ import numpy as np
 import random
 import time
 
+
 def dibujar_batalla_barcos():
     escena = [
         "      __|__                     __|__      ",
@@ -14,10 +15,16 @@ def dibujar_batalla_barcos():
     for linea in escena:
         print(linea)
 
+#def idioma():
+    #idioma= input("Escoja el idioma: Ingles/Español").lower()
+    #if idioma == "ingles":
+        #frase1 =
+    #elif idioma == "español":
+        #frase1 =
+        #frase2 =
 
-def crear_tablero(tamaño):
-    tablero = np.full((tamaño,tamaño), "_")
-    return tablero
+def crear_tablero(tamaño): 
+    return np.full((tamaño,tamaño), "_")
 
 
 def crear_barco(eslora, tablero):
@@ -58,15 +65,10 @@ def colocar_flota(barcos, tablero):
             tablero[i][j] = 'O'  
     return tablero
 
-def generar_nuevo_tablero():
-    tablero_usuario = crear_tablero(10)
-    flota_usuario = crear_flota(tablero_usuario)
-    tablero_final = colocar_flota(flota_usuario, tablero_usuario)
-    return tablero_final
-
 def sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maquina, modo):
-
+    time.sleep(1)
     print("Que comience el juego")
+    time.sleep(1)
     barcos_hundidos_usuario = 0
     barcos_hundidos_maquina = 0
     
@@ -76,38 +78,39 @@ def sistema_de_turnos(tablero_usuario, tablero_maquina, flota_usuario, flota_maq
         limite_puntos = len(tablero_maquina[tablero_maquina == "O"])
     
     while barcos_hundidos_usuario < limite_puntos and barcos_hundidos_maquina < limite_puntos:
+        
         print("\n--- Tu turno ---")    
-        barcos_hundidos_maquina += turno_usuario(tablero_maquina)
+        barcos_hundidos_maquina += turno_usuario(tablero_maquina,flota_maquina)
         mostrar_tablero(tablero_maquina)
-
         if barcos_hundidos_maquina >= limite_puntos:   
             print("Has ganado makena.")
             break
+
         time.sleep(1)
 
         print("\n--- Turno de la Máquina ---")   
         barcos_hundidos_usuario += turno_maquina(tablero_usuario, flota_usuario)
         mostrar_tablero(tablero_usuario)
-
         if barcos_hundidos_usuario >= limite_puntos:      
             print("La máquina te ha ganado crack")
             break
 
 
-def turno_usuario(tablero,flota_maquina):
-    while True:  
+def turno_usuario(tablero_maquina,flota_maquina):
+    while True: 
+        mostrar_tablero_oculto(tablero_maquina) 
         try:                                                                 #Mientras no se pierda el turno
-            fila = int(input("Introduce la fila (1-10) a la que quieres disparar: "))
-            columna = int(input("Introduce la columna (1-10) a la que quieres disparar: "))
+            fila = int(input("Introduce la fila (0-9) a la que quieres disparar: "))
+            columna = int(input("Introduce la columna (0-9) a la que quieres disparar: "))
             if not (0 <= fila <= 9) or not (0 <= columna <= 9):
                 print("Cordenadas fuera de rango, intentelo de nuevo")
                 continue
         except ValueError:
-            print("Intruce numero entre el 1 y 10.")
+            print("Intruce numero entre el 0 y 9.")
             continue
 
-        resultado = disparar((fila, columna), tablero)             #llamada ala función disparar
-        print(f"Disparaste a {(fila + 1, columna + 1)}:\n {resultado}")     #Ubicación del tiro por pantalla
+        resultado = disparar((fila, columna), tablero_maquina)             #llamada ala función disparar
+        print(f"Disparaste a {(fila, columna)}:\n {resultado}")     #Ubicación del tiro por pantalla
         
         if resultado == "Agua":                                     #Posibilidades
             print("Fallaste. Fin de tu turno.")
@@ -115,18 +118,18 @@ def turno_usuario(tablero,flota_maquina):
         elif resultado == "Tocado":
             print("Has acertado sigue disparando.")
             for barco in flota_maquina:
-                if barco_hundido(barco, tablero):
+                if barco_hundido(barco, tablero_maquina):
                     print("Barco Hundido")
                     return 1
                 
 
-def turno_maquina(tablero, flota_usuario):
+def turno_maquina(tablero_usuario, flota_usuario):
     while True:                      #Mientras acierte seguirá disparando de forma random
         fila = random.randint(0, 9)
         columna = random.randint(0, 9)
         
-        resultado = disparar((fila, columna), tablero)
-        print(f"La máquina disparó a {(fila + 1, columna + 1)}: \n {resultado}")
+        resultado = disparar((fila, columna), tablero_usuario)
+        print(f"La máquina disparó a {(fila, columna)}: \n {resultado}")
         
         if resultado == "Agua":
             print("La máquina falló. Fin de su turno.")
@@ -135,7 +138,7 @@ def turno_maquina(tablero, flota_usuario):
         elif resultado == "Tocado":
             print("La máquina acertó. Sigue disparando.")
             for barco in flota_usuario:
-                if barco_hundido(barco,tablero):
+                if barco_hundido(barco,tablero_usuario):
                     print("Barco Hundido")
                     return 1
         
@@ -158,8 +161,19 @@ def barco_hundido(barco, tablero):
     return True
 
 def mostrar_tablero(tablero):
-    print("\n--- Tablero de la maquina ---")
     for fila in tablero:
         print(" ".join(fila))
 
+def mostrar_tablero_oculto(tablero):
+    print("Tablero de la maquina")
+    for fila in tablero:      
+        nueva_fila = []
+        for celda in fila:
+            if celda == 'O':
+                nueva_fila.append('_')  
+            else:
+                nueva_fila.append(celda)  
+        fila_str = " ".join(nueva_fila)
+        print(fila_str)   
+            
 

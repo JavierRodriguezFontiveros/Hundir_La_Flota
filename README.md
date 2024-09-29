@@ -16,7 +16,7 @@ Hundir La Flota es un emocionante y desafiante juego de batalla naval en el que 
 - **Importación de Imágenes**: Visualiza imágenes en la consola para enriquecer la experiencia de juego.
 - **Evaluador de Errores**: Sistema de detección de errores durante el juego para mejorar la experiencia del usuario.
 
-##Proximas actualizaciones
+## Proximas actualizaciones
 - **Chat Bot**: Recibe mensajes de alerta cuando te acerques a perder.
 - **Dificultad**: La IA aumentará su probabilidad de acierto.
 - **Cuenta**: crear una cuenta para ver los historiales de partida.
@@ -42,4 +42,4 @@ Para jugar a Hundir La Flota, sigue estos pasos:
 2. Clona este repositorio en tu máquina local:
    ```bash
    git clone https://github.com/tu_usuario/hundir_la_flota.git
-3.Disfruta de la aventura
+3. Disfruta de la aventura

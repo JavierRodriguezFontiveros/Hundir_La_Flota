@@ -7,7 +7,6 @@ def jugar():
     time.sleep(1)
 
     utils.dibujar_batalla_barcos()
-
     time.sleep(2)
 
     modo = input("Hay dos modos de juego: Corto( Cada jugador tendra 6 barcos de eslora 1 y quién elimine antes dos barcos habrá ganado. Largo: 6 barcos cada uno y quien elimine los del contrincante antes habrá ganado.  Introduzca: (Corto/Largo)) ").lower()
@@ -36,7 +35,7 @@ def jugar():
     while True: 
         respuesta = input("Te gusta tu tablero o generamos otro?(si/no)").lower()    
         if respuesta == "si":
-            print(f"Then you will play with this, GOOD LUCK!")
+            print(f"Entonces jugaras con este, Buena Suerte!")
             break
         else:
             tablero_usuario = utils.crear_tablero(10)
